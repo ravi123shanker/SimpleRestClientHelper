@@ -43,7 +43,7 @@ HashMap<String, Object> postParams=new HashMap<>();
 HashMap<String, Object> putParams=new HashMap<>();
         putParams.put("Key1", "Value1");
         putParams.put("Key2", "Value2");
-        RestClientHelper.getInstance().put("", putParams, new RestClientHelper.RestClientListener() {
+        RestClientHelper.getInstance().put("httt://YOUR_API_URL", putParams, new RestClientHelper.RestClientListener() {
             @Override
             public void onSuccess(String response) {
                 // TODO: with response 

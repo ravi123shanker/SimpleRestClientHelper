@@ -95,3 +95,10 @@ HashMap<String, Object> deleteParams=new HashMap<>();
         });
   ~~~
   
+  **Request with Headers**
+  ~~~java
+  HashMap<String, String> headers=new HashMap<>();
+  headers.put("KEY_HEADER1", "VALUE_HEADER1");
+  headers.put("KEY_HEADER2", "VALUE_HEADER2");
+  ~~~
+  Pass as a parameter in required methods like get, post, put, delete and postMultipart.

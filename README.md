@@ -7,15 +7,91 @@ Simplest library to implement  rest client APIs using okhttp3 in your app
 
 **Get Request**
 ~~~java
-RestClientHelper.getInstance().get(serviceUrl1, new RestClientHelper.RestClientListener() {
+RestClientHelper.getInstance().get("httt://YOUR_API_URL", new RestClientHelper.RestClientListener() {
             @Override
             public void onSuccess(String response) {
-                //todo with response
+                // TODO: with response
             }
 
             @Override
             public void onError(String error) {
-                //todo with error
+                // TODO: with error
             }
         });
 ~~~
+
+**Post Request**
+~~~java
+HashMap<String, Object> postParams=new HashMap<>();
+        postParams.put("Key1", "Value1");
+        postParams.put("Key2", "Value2");
+        RestClientHelper.getInstance().post("httt://YOUR_API_URL", postParams, new RestClientHelper.RestClientListener() {
+            @Override
+            public void onSuccess(String response) {
+                // TODO: with response
+            }
+
+            @Override
+            public void onError(String error) {
+                // TODO: with error
+            }
+        });
+ ~~~
+ 
+ **Put Request**
+~~~java
+HashMap<String, Object> putParams=new HashMap<>();
+        putParams.put("Key1", "Value1");
+        putParams.put("Key2", "Value2");
+        RestClientHelper.getInstance().put("", putParams, new RestClientHelper.RestClientListener() {
+            @Override
+            public void onSuccess(String response) {
+                // TODO: with response 
+            }
+
+            @Override
+            public void onError(String error) {
+                // TODO: with error 
+            }
+        });
+ ~~~
+ 
+ **Delete Request**
+~~~java
+HashMap<String, Object> deleteParams=new HashMap<>();
+        deleteParams.put("Key1", "Value1");
+        deleteParams.put("Key2", "Value2");
+        RestClientHelper.getInstance().delete("httt://YOUR_API_URL", deleteParams, new RestClientHelper.RestClientListener() {
+            @Override
+            public void onSuccess(String response) {
+                // TODO: with response
+            }
+
+            @Override
+            public void onError(String error) {
+                // TODO: with error
+            }
+        });
+ ~~~
+ 
+ **Multipart Request**
+ ~~~java
+ HashMap<String, Object> multipartParams=new HashMap<>();
+        multipartParams.put("Key1", "Value1");
+        multipartParams.put("Key2", "Value2");
+        HashMap<String, File> fileParams=new HashMap<>();
+        File imageFile=new File("IMAGE_PATH");
+        fileParams.put("KEY_NAME", imageFile);
+        RestClientHelper.getInstance().postMultipart("httt://YOUR_API_URL", multipartParams, fileParams, new RestClientHelper.RestClientListener() {
+            @Override
+            public void onSuccess(String response) {
+                // TODO: with response
+            }
+
+            @Override
+            public void onError(String error) {
+                // TODO: with error
+            }
+        });
+  ~~~
+  

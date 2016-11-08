@@ -3,15 +3,13 @@ package com.ravidev.restclient;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.util.ArrayMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -69,7 +67,7 @@ public class RestClientHelper {
         this.executor = executor;
     }
 
-    private void addHeaders(Request.Builder builder, @NonNull HashMap<String, String> headers) {
+    private void addHeaders(Request.Builder builder, @NonNull ArrayMap<String, String> headers) {
         for (String key : headers.keySet()) {
             builder.addHeader(key, headers.get(key));
         }
@@ -79,11 +77,11 @@ public class RestClientHelper {
         get(serviceUrl, null, null, restClientListener);
     }
 
-    public void get(@NonNull String serviceUrl, HashMap<String, Object> params, @NonNull RestClientListener restClientListener) {
+    public void get(@NonNull String serviceUrl, ArrayMap<String, Object> params, @NonNull RestClientListener restClientListener) {
         get(serviceUrl, null, params, restClientListener);
     }
 
-    public void get(@NonNull String serviceUrl, HashMap<String, String> headers, HashMap<String, Object> params, RestClientListener restClientListener) {
+    public void get(@NonNull String serviceUrl, ArrayMap<String, String> headers, ArrayMap<String, Object> params, RestClientListener restClientListener) {
         final Request.Builder builder = new Request.Builder();
         if (headers != null)
             addHeaders(builder, headers);
@@ -91,11 +89,11 @@ public class RestClientHelper {
         execute(builder, restClientListener);
     }
 
-    public void post(@NonNull String serviceUrl, @NonNull HashMap<String, Object> params, @NonNull RestClientListener restClientListener) {
+    public void post(@NonNull String serviceUrl, @NonNull ArrayMap<String, Object> params, @NonNull RestClientListener restClientListener) {
         post(serviceUrl, null, params, restClientListener);
     }
 
-    public void post(@NonNull String serviceUrl, HashMap<String, String> headers, @NonNull HashMap<String, Object> params, @NonNull RestClientListener restClientListener) {
+    public void post(@NonNull String serviceUrl, ArrayMap<String, String> headers, @NonNull ArrayMap<String, Object> params, @NonNull RestClientListener restClientListener) {
         final Request.Builder builder = new Request.Builder();
         if (headers != null)
             addHeaders(builder, headers);
@@ -108,11 +106,11 @@ public class RestClientHelper {
         execute(builder, restClientListener);
     }
 
-    public void put(@NonNull String serviceUrl, @NonNull HashMap<String, Object> params, @NonNull RestClientListener restClientListener) {
+    public void put(@NonNull String serviceUrl, @NonNull ArrayMap<String, Object> params, @NonNull RestClientListener restClientListener) {
         put(serviceUrl, null, params, restClientListener);
     }
 
-    public void put(@NonNull String serviceUrl, HashMap<String, String> headers, @NonNull HashMap<String, Object> params, @NonNull RestClientListener restClientListener) {
+    public void put(@NonNull String serviceUrl, ArrayMap<String, String> headers, @NonNull ArrayMap<String, Object> params, @NonNull RestClientListener restClientListener) {
         final Request.Builder builder = new Request.Builder();
         if (headers != null)
             addHeaders(builder, headers);
@@ -125,11 +123,11 @@ public class RestClientHelper {
         execute(builder, restClientListener);
     }
 
-    public void delete(@NonNull String serviceUrl, @NonNull HashMap<String, Object> params, @NonNull RestClientListener restClientListener) {
+    public void delete(@NonNull String serviceUrl, @NonNull ArrayMap<String, Object> params, @NonNull RestClientListener restClientListener) {
         delete(serviceUrl, null, params, restClientListener);
     }
 
-    public void delete(@NonNull String serviceUrl, HashMap<String, String> headers, @NonNull HashMap<String, Object> params, @NonNull RestClientListener restClientListener) {
+    public void delete(@NonNull String serviceUrl, ArrayMap<String, String> headers, @NonNull ArrayMap<String, Object> params, @NonNull RestClientListener restClientListener) {
         final Request.Builder builder = new Request.Builder();
         if (headers != null)
             addHeaders(builder, headers);
@@ -142,15 +140,15 @@ public class RestClientHelper {
         execute(builder, restClientListener);
     }
 
-    public void postMultipart(@NonNull String serviceUrl, @NonNull HashMap<String, File> files, @NonNull RestClientListener restClientListener) {
+    public void postMultipart(@NonNull String serviceUrl, @NonNull ArrayMap<String, File> files, @NonNull RestClientListener restClientListener) {
         postMultipart(serviceUrl, null, null, files, restClientListener);
     }
 
-    public void postMultipart(@NonNull String serviceUrl, HashMap<String, Object> params, @NonNull HashMap<String, File> files, @NonNull RestClientListener restClientListener) {
+    public void postMultipart(@NonNull String serviceUrl, ArrayMap<String, Object> params, @NonNull ArrayMap<String, File> files, @NonNull RestClientListener restClientListener) {
         postMultipart(serviceUrl, null, params, files, restClientListener);
     }
 
-    public void postMultipart(@NonNull String serviceUrl, HashMap<String, String> headers, HashMap<String, Object> params, @NonNull HashMap<String, File> files, @NonNull RestClientListener restClientListener) {
+    public void postMultipart(@NonNull String serviceUrl, ArrayMap<String, String> headers, ArrayMap<String, Object> params, @NonNull ArrayMap<String, File> files, @NonNull RestClientListener restClientListener) {
         final Request.Builder builder = new Request.Builder();
         if (headers != null)
             addHeaders(builder, headers);
@@ -195,7 +193,7 @@ public class RestClientHelper {
         });
     }
 
-    private String generateUrlParams(String serviceUrl, HashMap<String, Object> params) {
+    private String generateUrlParams(String serviceUrl, ArrayMap<String, Object> params) {
         final StringBuffer urls = new StringBuffer();
         if (defaultBaseUrl.length() > 0)
             urls.append(defaultBaseUrl);
@@ -214,7 +212,7 @@ public class RestClientHelper {
         return urls.toString();
     }
 
-    private RequestBody generateRequestBody(HashMap<String, Object> params) {
+    private RequestBody generateRequestBody(ArrayMap<String, Object> params) {
         final JSONObject jsonObj = new JSONObject();
         if (params != null) {
             for (String key : params.keySet()) {
@@ -229,7 +227,7 @@ public class RestClientHelper {
         return requestBody;
     }
 
-    private RequestBody generateMultipartBody(HashMap<String, Object> params, HashMap<String, File> files) {
+    private RequestBody generateMultipartBody(ArrayMap<String, Object> params, ArrayMap<String, File> files) {
         final MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
         if (params != null) {

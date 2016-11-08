@@ -79,7 +79,7 @@ ArrayMap<String, Object> deleteParams=new ArrayMap<>();
  ArrayMap<String, Object> multipartParams=new ArrayMap<>();
         multipartParams.put("Key1", "Value1");
         multipartParams.put("Key2", "Value2");
-        HashMap<String, File> fileParams=new HashMap<>();
+        ArrayMap<String, File> fileParams=new ArrayMap<>();
         File imageFile=new File("IMAGE_PATH");
         fileParams.put("KEY_NAME", imageFile);
         RestClientHelper.getInstance().postMultipart("httt://YOUR_API_URL", multipartParams, fileParams, new RestClientHelper.RestClientListener() {

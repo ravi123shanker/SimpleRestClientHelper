@@ -22,7 +22,7 @@ RestClientHelper.getInstance().get("httt://YOUR_API_URL", new RestClientHelper.R
 
 **Post Request**
 ~~~java
-HashMap<String, Object> postParams=new HashMap<>();
+ArrayMap<String, Object> postParams=new ArrayMap<>();
         postParams.put("Key1", "Value1");
         postParams.put("Key2", "Value2");
         RestClientHelper.getInstance().post("httt://YOUR_API_URL", postParams, new RestClientHelper.RestClientListener() {
@@ -40,7 +40,7 @@ HashMap<String, Object> postParams=new HashMap<>();
  
  **Put Request**
 ~~~java
-HashMap<String, Object> putParams=new HashMap<>();
+ArrayMap<String, Object> putParams=new ArrayMap<>();
         putParams.put("Key1", "Value1");
         putParams.put("Key2", "Value2");
         RestClientHelper.getInstance().put("httt://YOUR_API_URL", putParams, new RestClientHelper.RestClientListener() {
@@ -58,7 +58,7 @@ HashMap<String, Object> putParams=new HashMap<>();
  
  **Delete Request**
 ~~~java
-HashMap<String, Object> deleteParams=new HashMap<>();
+ArrayMap<String, Object> deleteParams=new ArrayMap<>();
         deleteParams.put("Key1", "Value1");
         deleteParams.put("Key2", "Value2");
         RestClientHelper.getInstance().delete("httt://YOUR_API_URL", deleteParams, new RestClientHelper.RestClientListener() {
@@ -76,7 +76,7 @@ HashMap<String, Object> deleteParams=new HashMap<>();
  
  **Multipart Request**
  ~~~java
- HashMap<String, Object> multipartParams=new HashMap<>();
+ ArrayMap<String, Object> multipartParams=new ArrayMap<>();
         multipartParams.put("Key1", "Value1");
         multipartParams.put("Key2", "Value2");
         HashMap<String, File> fileParams=new HashMap<>();
@@ -97,7 +97,7 @@ HashMap<String, Object> deleteParams=new HashMap<>();
   
   **Request with Headers**
   ~~~java
-  HashMap<String, String> headers=new HashMap<>();
+  ArrayMap<String, String> headers=new ArrayMap<>();
   headers.put("KEY_HEADER1", "VALUE_HEADER1");
   headers.put("KEY_HEADER2", "VALUE_HEADER2");
   ~~~

@@ -7,7 +7,7 @@ Simplest library to implement  rest client APIs using okhttp3 in your app
 
 **Get Request**
 ~~~java
-RestClientHelper.getInstance().get("httt://YOUR_API_URL", new RestClientHelper.RestClientListener() {
+RestClientHelper.getInstance().get("http://YOUR_API_URL", new RestClientHelper.RestClientListener() {
             @Override
             public void onSuccess(String response) {
                 // TODO: with response
@@ -25,7 +25,7 @@ RestClientHelper.getInstance().get("httt://YOUR_API_URL", new RestClientHelper.R
 ArrayMap<String, Object> postParams=new ArrayMap<>();
         postParams.put("Key1", "Value1");
         postParams.put("Key2", "Value2");
-        RestClientHelper.getInstance().post("httt://YOUR_API_URL", postParams, new RestClientHelper.RestClientListener() {
+        RestClientHelper.getInstance().post("http://YOUR_API_URL", postParams, new RestClientHelper.RestClientListener() {
             @Override
             public void onSuccess(String response) {
                 // TODO: with response
@@ -43,7 +43,7 @@ ArrayMap<String, Object> postParams=new ArrayMap<>();
 ArrayMap<String, Object> putParams=new ArrayMap<>();
         putParams.put("Key1", "Value1");
         putParams.put("Key2", "Value2");
-        RestClientHelper.getInstance().put("httt://YOUR_API_URL", putParams, new RestClientHelper.RestClientListener() {
+        RestClientHelper.getInstance().put("http://YOUR_API_URL", putParams, new RestClientHelper.RestClientListener() {
             @Override
             public void onSuccess(String response) {
                 // TODO: with response 
@@ -61,7 +61,7 @@ ArrayMap<String, Object> putParams=new ArrayMap<>();
 ArrayMap<String, Object> deleteParams=new ArrayMap<>();
         deleteParams.put("Key1", "Value1");
         deleteParams.put("Key2", "Value2");
-        RestClientHelper.getInstance().delete("httt://YOUR_API_URL", deleteParams, new RestClientHelper.RestClientListener() {
+        RestClientHelper.getInstance().delete("http://YOUR_API_URL", deleteParams, new RestClientHelper.RestClientListener() {
             @Override
             public void onSuccess(String response) {
                 // TODO: with response
@@ -82,7 +82,7 @@ ArrayMap<String, Object> deleteParams=new ArrayMap<>();
         ArrayMap<String, File> fileParams=new ArrayMap<>();
         File imageFile=new File("IMAGE_PATH");
         fileParams.put("KEY_NAME", imageFile);
-        RestClientHelper.getInstance().postMultipart("httt://YOUR_API_URL", multipartParams, fileParams, new RestClientHelper.RestClientListener() {
+        RestClientHelper.getInstance().postMultipart("http://YOUR_API_URL", multipartParams, fileParams, new RestClientHelper.RestClientListener() {
             @Override
             public void onSuccess(String response) {
                 // TODO: with response

@@ -25,6 +25,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okio.Buffer;
+import okio.BufferedSink;
+import okio.ForwardingSink;
+import okio.Okio;
+import okio.Sink;
 
 /**
  * Created by ravishankeryadav on 8/27/2016.
@@ -49,7 +54,6 @@ public class RestClientHelper {
     }
 
     private final Executor executor;
-
     {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(5, 5,
                 5L, TimeUnit.SECONDS,
@@ -145,6 +149,13 @@ public class RestClientHelper {
         postMultipart(serviceUrl, null, params, files, restClientListener);
     }
 
+    public void postMultipart(@NonNull String serviceUrl, @NonNull ArrayMap<String, File> files, @NonNull ProgressListener progressListener) {
+        postMultipart(serviceUrl, null, null, files, progressListener);
+    }
+    public void postMultipart(@NonNull String serviceUrl, ArrayMap<String, Object> params, @NonNull ArrayMap<String, File> files, @NonNull ProgressListener progressListener) {
+        postMultipart(serviceUrl, null, params, files, progressListener);
+    }
+
     public void postMultipart(@NonNull String serviceUrl, ArrayMap<String, String> headers, ArrayMap<String, Object> params, @NonNull ArrayMap<String, File> files, @NonNull RestClientListener restClientListener) {
         final Request.Builder builder = new Request.Builder();
         if (headers != null)
@@ -156,6 +167,19 @@ public class RestClientHelper {
         builder.url(urls.toString());
         builder.post(generateMultipartBody(params, files));
         execute(builder, restClientListener);
+    }
+
+    public void postMultipart(@NonNull String serviceUrl, ArrayMap<String, String> headers, ArrayMap<String, Object> params, @NonNull ArrayMap<String, File> files, @NonNull ProgressListener progressListener) {
+        final Request.Builder builder = new Request.Builder();
+        if (headers != null)
+            addHeaders(builder, headers);
+        StringBuffer urls = new StringBuffer();
+        if (defaultBaseUrl.length() > 0)
+            urls.append(defaultBaseUrl);
+        urls.append(serviceUrl);
+        builder.url(urls.toString());
+        builder.post(new ProgressRequestBody(generateMultipartBody(params, files), progressListener));
+        execute(builder, progressListener);
     }
 
     private void execute(final Request.Builder builder, final RestClientListener restClientListener) {
@@ -193,6 +217,41 @@ public class RestClientHelper {
         });
     }
 
+    private void execute(final Request.Builder builder, final ProgressListener progressListener) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                final OkHttpClient client = new OkHttpClient.Builder().connectTimeout(2, TimeUnit.MINUTES).writeTimeout(2, TimeUnit.MINUTES).readTimeout(2, TimeUnit.MINUTES).build();
+                try {
+                    System.setProperty("http.keepAlive", "false");
+                    final Response response = client.newCall(builder.build()).execute();
+                    final String responseData = response.body().string();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.code() == 200) {
+                                Type responseType=ReflectionHelper.getTypeArgument(progressListener, 0);
+                                callRequestCallbackOnSuccess(progressListener, responseType != null ? new Gson().fromJson(responseData, responseType) : null);
+                            } else {
+                                Type errorType=ReflectionHelper.getTypeArgument(progressListener, 1);
+                                callRequestCallbackOnError(progressListener, errorType != null ? new Gson().fromJson(responseData, errorType) : null);
+                            }
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Type errorType=((RestClientCallbackTypes) progressListener).getErrorType();
+                            progressListener.onError("APIs not working...");
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     private <E> void callRequestCallbackOnSuccess(final RestClientListener restClientListener, E responseParsedData)
     {
         if (restClientListener != null)
@@ -206,6 +265,22 @@ public class RestClientHelper {
         if (restClientListener != null)
         {
             restClientListener.onError(errorObject);
+        }
+    }
+
+    private <E> void callRequestCallbackOnSuccess(final ProgressListener progressListener, E responseParsedData)
+    {
+        if (progressListener != null)
+        {
+            progressListener.onSuccess(responseParsedData);
+        }
+    }
+
+    private <E> void callRequestCallbackOnError(final ProgressListener progressListener,E errorObject)
+    {
+        if (progressListener != null)
+        {
+            progressListener.onError(errorObject);
         }
     }
 
@@ -257,5 +332,67 @@ public class RestClientHelper {
             }
         }
         return builder.build();
+    }
+
+    private class ProgressRequestBody extends RequestBody {
+        protected RequestBody delegate;
+        protected ProgressListener listener;
+
+        protected CountingSink countingSink;
+
+        public ProgressRequestBody(RequestBody delegate, ProgressListener listener) {
+            this.delegate = delegate;
+            this.listener = listener;
+        }
+
+        @Override
+        public MediaType contentType() {
+            return delegate.contentType();
+        }
+
+        @Override
+        public long contentLength() {
+            long contentLength=-1l;
+            try {
+                contentLength = delegate.contentLength();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return contentLength;
+        }
+
+        @Override
+        public void writeTo(BufferedSink sink) throws IOException {
+            BufferedSink bufferedSink;
+
+            countingSink = new CountingSink(sink);
+            bufferedSink = Okio.buffer(countingSink);
+
+            delegate.writeTo(bufferedSink);
+
+            bufferedSink.flush();
+        }
+
+        private final class CountingSink extends ForwardingSink {
+
+            private long bytesWritten = 0;
+
+            public CountingSink(Sink delegate) {
+                super(delegate);
+            }
+
+            @Override
+            public void write(Buffer source, long byteCount) throws IOException {
+                super.write(source, byteCount);
+
+                bytesWritten += byteCount;
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        listener.onProgressUpdate((int) (100F * bytesWritten / contentLength()));
+                    }
+                });
+            }
+        }
     }
 }

@@ -26,16 +26,16 @@ ArrayMap<String, Object> postParams=new ArrayMap<>();
         postParams.put("Key1", "Value1");
         postParams.put("Key2", "Value2");
         RestClientHelper.getInstance().post("http://YOUR_API_URL", postParams, new RestClientListener<Response, Error>() {
-                                                                                           @Override
-                                                                                           public void onSuccess(Response response) {
-                                                                                               // TODO: with response
-                                                                                           }
+                    @Override
+                    public void onSuccess(Response response) {
+                        // TODO: with response
+                    }
 
-                                                                                           @Override
-                                                                                           public void onError(Error error) {
-                                                                                               // TODO: with error
-                                                                                           }
-                                                                                       });
+                    @Override
+                    public void onError(Error error) {
+                         // TODO: with error
+                     }
+              });                                                                       
  ~~~
  
  **Put Request**
@@ -44,17 +44,16 @@ ArrayMap<String, Object> putParams=new ArrayMap<>();
         putParams.put("Key1", "Value1");
         putParams.put("Key2", "Value2");
         RestClientHelper.getInstance().put("http://YOUR_API_URL", putParams, new RestClientListener<Response, Error>() {
-                                                                                         @Override
-                                                                                         public void onSuccess(Response response) {
-                                                                                             // TODO: with response
-                                                                                         }
+                    @Override
+                    public void onSuccess(Response response) {
+                        // TODO: with response
+                    }
 
-                                                                                         @Override
-                                                                                         public void onError(Error error) {
-                                                                                             // TODO: with error
-                                                                                         }
-                                                                                     });
- ~~~
+                    @Override
+                    public void onError(Error error) {
+                         // TODO: with error
+                     }
+              });   
  
  **Delete Request**
 ~~~java
@@ -62,16 +61,16 @@ ArrayMap<String, Object> deleteParams=new ArrayMap<>();
         deleteParams.put("Key1", "Value1");
         deleteParams.put("Key2", "Value2");
         RestClientHelper.getInstance().delete("http://YOUR_API_URL", deleteParams, new RestClientListener<Response, Error>() {
-                                                                                               @Override
-                                                                                               public void onSuccess(Response response) {
-                                                                                                   // TODO: with response
-                                                                                               }
+                    @Override
+                    public void onSuccess(Response response) {
+                        // TODO: with response
+                    }
 
-                                                                                               @Override
-                                                                                               public void onError(Error error) {
-                                                                                                   // TODO: with error
-                                                                                               }
-                                                                                           });
+                    @Override
+                    public void onError(Error error) {
+                         // TODO: with error
+                     }
+              });   
  ~~~
  
  **Multipart Request**
@@ -83,16 +82,16 @@ ArrayMap<String, Object> deleteParams=new ArrayMap<>();
         File imageFile=new File("IMAGE_PATH");
         fileParams.put("KEY_NAME", imageFile);
         RestClientHelper.getInstance().postMultipart("http://YOUR_API_URL", multipartParams, fileParams, new RestClientListener<Response, Error>() {
-                                                                                                                     @Override
-                                                                                                                     public void onSuccess(Response response) {
-                                                                                                                         // TODO: with response
-                                                                                                                     }
+                     @Override
+                    public void onSuccess(Response response) {
+                        // TODO: with response
+                    }
 
-                                                                                                                     @Override
-                                                                                                                     public void onError(Error error) {
-                                                                                                                         // TODO: with error
-                                                                                                                     }
-                                                                                                                 });
+                    @Override
+                    public void onError(Error error) {
+                         // TODO: with error
+                     }
+              });   
   ~~~
   
   **Request with Headers**
